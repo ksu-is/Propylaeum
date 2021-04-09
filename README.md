@@ -15,12 +15,12 @@ Propylaeum aims to make it easier for venues to address these deficiencies.
  * Number of rows in each section
  * Number of seats in each row
 
-1. Create a python function to identify and interpret patterns in the naming taxonomy of seats and rows, based on analysis of user input
+2. Create a python function to identify and interpret patterns in the naming taxonomy of seats and rows, based on analysis of user input
  * Often, seats are incremented as “odd” or “even” based on their location in the venue. Some rows may differ from others, but the patterns are usually generic.
  * Venues often increment rows either with letters `[AA, BB, CC]` or large numbers `[100, 200, 300]`.
  * By finding patterns, we can simplify the process of labeling elements in diagrams.
 
-1. Develop an application framework with flask to pass data between the front and back end
+3. Develop an application framework with flask to pass data between the front and back end
  * A page with dynamically generated form fields, used to gather input to create new diagrams
  * A page to view , in which a user can select seats from a visual diagram and set their status to either `unavailable`, `available`, or `occupied`
     * This interface will display a live summary of seating counts for each class.
