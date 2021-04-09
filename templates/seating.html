@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="seats" style="background-color: lightblue;padding:20px;">
+    <h1>Venue Name</h1>
+    <p>Section: {{sectionName}}</p>
+    <p><span>For each row, please specify the number of seats.</span>
+        <form action="{{ url_for('seats') }}" method='post'>
+            <table>
+                <tr><th style="text-align:center;font-weight:bold;">Row</th><th># of seats</th></tr>
+                    {{formArea}}
+            </table><br>
+            <input type='submit' value='Submit'>
+        </form>
+    </p>
+</div>
+{% endblock %}

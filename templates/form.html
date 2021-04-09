@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="home">
+    <h1>Propylaeum</h1>
+    <p>Welcome to my project! Enter the requested venue information below.</p>
+    <p><form action="{{ url_for('seats') }}" method='post'>
+        Please type the name of this section: <input type='text' name='sectionName'><br>
+        Number of rows in this section: <input type='text' name='rowCount'><br>
+        How are rows in this section labeled?
+        <select name='rowTaxonomy'>
+            <option value='alpha'>Alphabetical</option>
+            <option value='numeric'>Numerical</option>
+            <option value='none'>Rows Not Labeled</option>
+        </select><br>
+        What is the label of your first row? Please enter a letter or a number, based on your response above: <input type='text' name='firstRow'><br>
+        <input type='submit' value='Submit'>
+        </form></p>
+</div>
+{% endblock %}
