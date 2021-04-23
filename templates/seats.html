@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="home">
+    <h1>Venue Name</h1>
+    <p></p>
+    <p><span>Please verify that the following information is correct. If it is not, you may change it by changing the input.</span>
+        <form action="{{ url_for('seats') }}" method='post'>
+            <table>
+                <tr><th style="text-align:center;font-weight:bold;">Row</th><th># of seats</th><th>First Seat Number</th></tr>
+                    {{formArea}}
+            </table><br>
+            <input type='submit' value='Submit'>
+        </form>
+    </p>
+</div>
+{% endblock %}
