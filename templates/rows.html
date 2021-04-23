@@ -5,11 +5,22 @@
     <p>For each row, please enter the requested information.</p>
     <hr width='100%'>
         <form action="{{ url_for('seatForm') }}" method='post'>
-            <table>
-                <tr><th style="text-align:center;font-weight:bold;">Row</th><th># of seats</th><th>First Seat Number</th></tr>
-                    {{formArea}}
-            </table><br>
+            <div class='form-container'>
+                <div class='area-1'>
+                    <table>
+                        <tr><th style="text-align:center;font-weight:bold;">Row</th><th># of seats</th><th>First Seat Number</th></tr>
+                            {{formArea}}
+                    </table><br>
+                </div>
+                <div class='area-2'>
+                    <table>
+                        <tr></tr>
+                            {{seatForm}}
+                    </table><br>
+                </div>
+            </div>
             <span class='button'><input class='continue' type='submit' value='Continue'></span>
+            
         </form>
     </p>
 </div>
