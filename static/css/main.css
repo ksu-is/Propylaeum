@@ -1,8 +1,9 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  color: rgb(57, 106, 235);
+  font-family: 'Adelle', serif;
+  color: rgb(0, 0, 0);
+  background-color: #7f7dbf;
 }
 
 /*
@@ -10,18 +11,16 @@ body {
  */
 
 header {
-  background-color: #000000;
+  background-color: #413f7e;
   height: 35px;
   width: 100%;
-  opacity: .9;
   margin-bottom: 10px;
 }
 
 header h1.logo {
   margin: 0;
   font-size: 1.7em;
-  color: #5ccefc;
-  text-transform: uppercase;
+  color: #f1f1f1;
   float: left;
 }
 
@@ -36,10 +35,18 @@ header h1.logo {
 
 div.home {
   padding: 20px;
-  background-color: #67acd3;
+  background-color: #eeeeee;
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
+}
+
+p {
+  margin: 0;
+}
+
+h1 {
+  margin: 0;
 }
 
 h2 {
@@ -61,7 +68,6 @@ h3 {
 .menu {
   float: right;
   margin-top: 8px;
-  background-color: #000000;
 }
 
 .menu li {
@@ -84,4 +90,67 @@ h3 {
   -webkit-border-radius: 6px;
      -moz-border-radius: 6px;
           border-radius: 6px;
+}
+
+.cls-1,.cls-2 {
+  fill:aliceblue;
+  stroke:#000;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-width:0.25px;
+}
+
+.cls-2 {
+  fill-rule:evenodd;
+}
+
+.big-label {
+  color: #130cca;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  line-height: 3;
+}
+
+.little-label {
+  font-family: 'Adelle', serif;
+  color: #000000;
+}
+
+.note {
+  font-weight: 300;
+  color: #808080;
+  font-size: .9em;
+}
+
+.continue {
+  background-color: #1674d7;
+  color: #fff;
+  font-size: 1.1em;
+  border: 1px solid #1674d7;
+  border-radius: 30px;
+  padding: 5px 15px;
+  font-family: 'Adelle', serif;
+}
+
+.radio-label {
+  color: #000;
+  font-size: 1em;
+}
+
+.inline-input {
+  margin-left: 10px;
+}
+
+hr {
+  color: #808080;
+}
+
+span.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+td {
+  text-align: center;
 }
