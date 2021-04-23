@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class='home'>
+    <label class='big-label'>Venue:</label><span class='inline-input little-label'>{{venueName}}</span><label class='big-label inline-input'>Section:</label><span class='little-label inline-input'>{{sectionName}}</span><br>
+    <p>For each row, please enter the requested information.</p>
+    <hr width='100%'>
+        <form action="{{ url_for('seatForm') }}" method='post'>
+            <table>
+                <tr><th style="text-align:center;font-weight:bold;">Row</th><th># of seats</th><th>First Seat Number</th></tr>
+                    {{formArea}}
+            </table><br>
+            <span class='button'><input class='continue' type='submit' value='Continue'></span>
+        </form>
+    </p>
+</div>
+{% endblock %}
