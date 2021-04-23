@@ -5,29 +5,49 @@ rowStartIDs = []
 
 app=Flask(__name__)
 @app.route('/rows/', methods=['POST'])
+# create new form from user input
+
 def seats():
-    #Create new section from form data
-    current_section = request.form['sectionName']
+    # declare variables
+    sectionName = request.form['sectionName']
     venueName = request.form['venueName']
     section_rows = request.form['rowCount']
     row_count = int(section_rows)
-    id_style = request.form['rowTaxonomy']
-    row1 = request.form['firstRow']
+    rowTaxonomy = request.form['rowTaxonomy']
+    firstRow = request.form['firstRow']
+        
+    # prepare csv for data storage 
+    import csv 
+    # insert data row as dictionary objects 
+    mydict = {'Venue': venueName, 'Section':sectionName, 'Row Count':row_count, 'Row Taxonomy':rowTaxonomy, 'Start Value':firstRow}
+    # field names 
+    fields = ['Venue', 'Section', 'Row Count', 'Row Taxonomy', 'Start Value'] 
+    # name of csv file 
+    filename = "venueData.csv"
+        
+    # write to csv 
+    with open(filename, 'w') as csvfile: 
+        # create a csv dict writer object 
+        writer = csv.DictWriter(csvfile, fieldnames = fields, lineterminator = '\n') 
+        # write headers (field names) 
+        writer.writeheader() 
+        # write data row
+        writer.writerow(mydict) 
 
     rows = []
     row_seat_count = []
     
     #determine layout of row data entry page
-    if id_style == "numeric":
-        current_row = int(row1)
+    if rowTaxonomy == "numeric":
+        current_row = int(firstRow)
         while row_count > 0:
             rows.append(str(current_row))
             current_row += 1
             row_count -= 1
             if row_count <= 0:
                 break
-    elif id_style == "alpha":
-        current_row = ord(row1)
+    elif rowTaxonomy == "alpha":
+        current_row = ord(firstRow)
         while row_count > 0:
             rows.append(str(chr(current_row)))
             current_row += 1
@@ -39,17 +59,14 @@ def seats():
     def rowsTable():
         # define list to store html form fields
         table = []
-        # define list to store input ids
-        #rowIDs = []
-        #rowStartIDs = []
 
         for count in range(0,len(rows)):
             # create new table row
-            rowName = str(rows[count])
+            row = str(rows[count])
             inputName = "row"+str(count)
             rowStart = inputName+"startValue"
 
-            table.append("<tr><td class='label'>"+rowName+"</td><td class='seatCount'><input type='text' name='"+inputName+"'></td><td class='seatCount'><input type='text' placeholder='101' name='"+rowStart+"'></td></tr>")
+            table.append("<tr><td class='label'>"+row+"</td><td class='seatCount'><input type='text' name='"+inputName+"'></td><td class='seatCount'><input type='text' placeholder='101' name='"+rowStart+"'></td></tr>")
             
             # append IDs to lists for easier recall later
             rowIDs.append(inputName)
@@ -70,7 +87,7 @@ def seats():
         #return table as html markup
         return Markup(' '.join(table))
     
-    return render_template("rows.html",formArea=rowsTable(),sectionName=current_section,venueName=venueName)
+    return render_template("rows.html",formArea=rowsTable(),sectionName=sectionName,venueName=venueName,seatForm="")
 
 @app.route('/seats/', methods=['POST'])
 # create seat inputs as <td>
