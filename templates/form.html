@@ -2,18 +2,30 @@
 {% block content %}
 <div class="home">
     <h1>Propylaeum</h1>
-    <p>Welcome to my project! Enter the requested venue information below.</p>
-    <p><form action="{{ url_for('seats') }}" method='post'>
-        Please type the name of this section: <input type='text' name='sectionName'><br>
-        Number of rows in this section: <input type='text' name='rowCount'><br>
-        How are rows in this section labeled?
-        <select name='rowTaxonomy'>
-            <option value='alpha'>Alphabetical</option>
-            <option value='numeric'>Numerical</option>
-            <option value='none'>Rows Not Labeled</option>
-        </select><br>
-        What is the label of your first row? Please enter a letter or a number, based on your response above: <input type='text' name='firstRow'><br>
-        <input type='submit' value='Submit'>
-        </form></p>
+    <p>To generate your venue diagram, please enter the requested information below.</p>
+    <hr width='100%'>
+    <form action="{{ url_for('seats') }}" method='post'>
+        <label class='big-label'>Section Information</label><br>
+        <label class='little-label'>Venue Name: <input type='text' name='venueName'></label><br>
+        <label class='little-label'>Section Name: <input type='text' name='sectionName'></label><br>
+        <hr width='100%'>
+
+        <label class='big-label'>Row Information</label><br>
+        <label class='little-label'>How many rows are in this section?<input class='inline-input' type='text' name='rowCount'></label><br><br>
+
+        <label class='little-label'>How are rows in this section labeled?
+            <select class='inline-input' name='rowTaxonomy'>
+                <option selected disabled>--Select--</option>
+                <option value='alpha'>Alphabetical ( A, B, C )</option>
+                <option value='numeric'>Numerical ( 1, 2, 3 )</option>
+                <option value='none'>Not Labeled</option>
+            </select>
+        </label><br>
+        <span class='note'>Most venues identify their rows by number [ 1, 2, 3 ] or letter [ A, B, C ].</span><br><br>
+        
+        <label class='little-label'>What is the label for your first row?<input class='inline-input' type='text' name='firstRow'></label><br>
+        <span class='note'>If your labels are “Numerical”, enter a number. If your labels are “Alphabetical”, enter a letter.</span><br>
+        <span class='button'><input class='continue' type='submit' value='Continue'></span>
+        </form>
 </div>
 {% endblock %}
