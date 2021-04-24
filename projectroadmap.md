@@ -15,3 +15,5 @@
 - [ ] Function: Define & Set Seat Classes
 - [ ] Function: Define & Update 'Seat Class' CSV Column
 - [ ] UI: Interactive Diagram
+
+:white_check_mark:
