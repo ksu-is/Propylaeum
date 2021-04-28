@@ -15,24 +15,6 @@ def seats():
     row_count = int(section_rows)
     rowTaxonomy = request.form['rowTaxonomy']
     firstRow = request.form['firstRow']
-        
-    # prepare csv for data storage 
-    import csv 
-    # insert data row as dictionary objects 
-    mydict = {'Venue': venueName, 'Section':sectionName, 'Row Count':row_count, 'Row Taxonomy':rowTaxonomy, 'Start Value':firstRow}
-    # field names 
-    fields = ['Venue', 'Section', 'Row Count', 'Row Taxonomy', 'Start Value'] 
-    # name of csv file 
-    filename = "venueData.csv"
-        
-    # write to csv 
-    with open(filename, 'w') as csvfile: 
-        # create a csv dict writer object 
-        writer = csv.DictWriter(csvfile, fieldnames = fields, lineterminator = '\n') 
-        # write headers (field names) 
-        writer.writeheader() 
-        # write data row
-        writer.writerow(mydict) 
 
     rows = []
     row_seat_count = []
@@ -58,7 +40,8 @@ def seats():
     # generate a form to add seats to rows
     def rowsTable():
         # define list to store html form fields
-        table = []
+        formInputs = []
+        rowNames = []
 
         for count in range(0,len(rows)):
             # create new table row
@@ -66,47 +49,53 @@ def seats():
             inputName = "row"+str(count)
             rowStart = inputName+"startValue"
 
-            table.append("<tr><td class='label'>"+row+"</td><td class='seatCount'><input type='text' name='"+inputName+"'></td><td class='seatCount'><input type='text' placeholder='101' name='"+rowStart+"'></td></tr>")
-            
-            # append IDs to lists for easier recall later
-            rowIDs.append(inputName)
-            rowStartIDs.append(rowStart)
+            # store row label
+            rowNames.append(row)
 
-            # add seat name inputs as <td>
-            #rowSeatCount = request.form[inputName] # <----- This returns an error - 400 Bad Request. It needs to go somewhere else
-            
-            #if type(rowSeatCount) == int:
-            #    for number in range(0,rowSeatCount):
-            #        table.append("<td class='seat'><input type='text' placeholder='"+str(number)+"' name='row"+str(count)+"seat"+str(number)+"'></#td>")
-            #else:
-            #    pass            
-            
-            #end row
-            #table.append("</tr>")
+            formInputs.append("<tr><td class='label'>"+row+"</td><td class='seatCount'><input type='text' name='"+inputName+"'></td><td class='seatCount'><input type='text' placeholder='101' name='"+rowStart+"'></td></tr>")
+
+        # prepare csv for data storage 
+        import csv    
+
+        from csv import DictWriter
+        def append_dict_as_row(file_name, dict_of_elem, field_names):
+            # Open file in append mode
+            with open(file_name, 'a+', newline='') as write_obj:
+                # Create a writer object from csv module
+                dict_writer = DictWriter(write_obj, fieldnames=field_names)
+                # Add dictionary as wor in the csv
+                dict_writer.writerow(dict_of_elem)
+
+        # If empty entries are missed then DictWriter will handle them automatically
+        field_names = ['Venue', 'Section', 'Rows'] 
+        row_dict = {'Venue': venueName, 'Section':sectionName, 'Rows':rowNames}
+        # Append a dict missing entries as a row in csv file
+        append_dict_as_row('venueData.csv', row_dict, field_names)
+
+        seatNames = []
+        
 
         #return table as html markup
-        return Markup(' '.join(table))
+        return Markup(' '.join(formInputs))
     
     return render_template("rows.html",formArea=rowsTable(),sectionName=sectionName,venueName=venueName,seatForm="")
 
 @app.route('/seats/', methods=['POST'])
 # create seat inputs as <td>
 def seatForm():
-    seatDataEntry = []
+    datasource = open('venuData.csv', 'r')
+    rowData = datasource.readline()
+    print(rowData)
+    seatNames = []
 
-
-    
-    rows = 3 # placeholder until I can figure out how to pass data between forms
-
-
-
-    for count in range(0,int(rows)):
+    for count in range(0,len(rowNames)):
         current_row = rowIDs[count]
         rowStart = rowStartIDs[count]
         seats = request.form[current_row]
 
         # generate inputs for current row
         seatDataEntry.append("<tr><td class='label'>"+(count+1)+"</td>")
+        
         # add seats to a row
         for seat in range(0,int(seats)):
             seatDataEntry.append("<td><svg class='seatSVG' data-name='Layer 1' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16.75 16'><g><g><rect class='cls-1' x='1.63' y='0.13' width='13.5' height='15.75' rx='2.25'/></g><g><path class='cls-2' d='M15.13.88h0a.76.76,0,0,1-.75.75h-12A.75.75,0,0,1,1.63.88h0A.74.74,0,0,1,2.38.13h12A.75.75,0,0,1,15.13.88Z'/></g><g><rect class='cls-1' x='15.13' y='2.53' width='1.5' height='10.5'/></g><g><rect class='cls-1' x='0.13' y='2.53' width='1.5' height='10.5'/></g></g></svg><br><br><input type='text' placeholder='"+(int(rowStart) + seat)+"' class='seatNumber' id='"+current_row+"seat"+(seat + 1)+"'/></td>")
