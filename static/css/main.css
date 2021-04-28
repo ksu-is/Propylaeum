@@ -93,7 +93,7 @@ h3 {
 }
 
 .cls-1,.cls-2 {
-  fill:aliceblue;
+  fill:rgb(208, 228, 255);
   stroke:#000;
   stroke-linecap:round;
   stroke-linejoin:round;
@@ -156,5 +156,30 @@ td {
 }
 
 .form-container {
+  display: flex;
+}
+
+.seatInput {
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  display:flex;
+  align-items:center;
+  vertical-align: middle;
+  z-index:3;
+  color: #000;
+  margin-top: -60px;;
+  font-family:'Adelle', sans-serif;
+  background:transparent;
+  border:none;
+  font-weight: 400;
+  font-size: 14pt;
+}
+
+.seatInput:hover, .continue:hover {
+  cursor: pointer;
+}
+
+svg {
   display: flex;
 }
