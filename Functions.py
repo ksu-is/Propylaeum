@@ -125,14 +125,25 @@ def seatForm():
 
         # read CSV file
         df = pd.read_csv('venueData.csv', error_bad_lines=False)
+        venueNames = df['Venue'].tolist()
+        sectionNames = df['Section'].tolist()
         venueData = df['Rows'].tolist()
+
+        venueName = venueNames[-1]
+        sectionName = sectionNames[-1]
+
         rowData = venueData[-1]
 
-        remove = ['[', ']', '"',"'", "['"]
-        for value in rowData:
+        remove = ['"',"'"]
+        for value in remove:
             rowList = rowData.replace(value, '')
+
+        rowListNoBrackets = str(rowList)[1:-1]
         
-        rowNames = list(rowList.split(','))
+        rowNames = list(rowListNoBrackets.split(','))
+        
+        def listToStringWithoutBrackets(list1):
+            return str(list1).replace('[','').replace(']','')
 
         seatDataEntry = []
         seatNames = []
@@ -148,7 +159,7 @@ def seatForm():
             currentSeat = seatStart
             currentRowSeats = []
 
-            seatDataEntry.append("<tr><td>"+rowNames[count]+"</td>")
+            seatDataEntry.append("<tr><td class='rowLabel'>"+rowNames[count]+"</td>")
             
             for seat in range(0,int(seatCount)):
                 seatNo = currentSeat
@@ -157,11 +168,17 @@ def seatForm():
 
                 # generate inputs for current row
                 
-                seatDataEntry.append("<td>"+svg+"<input class='seatInput' type='text' value='"+str(currentSeat)+"' class='seatNumber' id='row"+str(count)+"seat"+str(seat)+"'/></td>")
+                seatDataEntry.append("<td>"+svg+"<input class='seatInput' type='text' value='"+str(currentSeat)+"' class='seatNumber' id='row"+str(count+1)+"seat"+str(seat+1)+"'/></td>")
                 currentSeat += 1
                 
             seatDataEntry.append("</tr>")
             seatNames.append(currentRowSeats)
+
+        # If empty entries are missed then DictWriter will handle them automatically
+        field_names = ['Venue', 'Section', 'Rows', 'Seats'] 
+        row_dict = {'Venue': venueName, 'Section':sectionName, 'Rows':rowNames, 'Seats':seatNames}
+        # Append a dict missing entries as a row in csv file
+        append_dict_as_row('venues.csv', row_dict, field_names)
         
         #return table as html markup
         return Markup(' '.join(seatDataEntry))
